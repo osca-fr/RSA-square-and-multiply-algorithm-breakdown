@@ -1,0 +1,75 @@
+import time
+
+userInt = int(input("enter a number pls "))
+
+userBinary = []
+CPUDELAY = 0.001
+
+
+
+# turns the user inputted number (B10) into a binary number situated in an array
+while userInt != 0:
+    if userInt % 2 == 1:
+        userBinary.append(1)
+    else:
+         userBinary.append(0)
+    userInt = userInt // 2
+
+userBinary = userBinary[::-1]
+print(userBinary)
+
+BASE_NUMBER = 7
+running_total = 1
+
+for bit in userBinary:
+    if bit == 0:
+        time.sleep(CPUDELAY)
+        running_total = running_total * running_total
+    elif bit == 1:
+        time.sleep(CPUDELAY)
+        running_total = running_total * running_total
+        time.sleep(CPUDELAY)
+        running_total = running_total * BASE_NUMBER
+
+def process_single_bit(bit):
+  start_time = time.perf_counter_ns()
+  running_total = 1
+  CPUDELAY = 0.001
+  BASE_NUMBER = 7
+
+  if bit == 0:
+    time.sleep(CPUDELAY)
+    running_total = running_total * running_total
+  elif bit == 1:
+    time.sleep(CPUDELAY)
+    running_total = running_total * running_total
+    time.sleep(CPUDELAY)
+    running_total = running_total * BASE_NUMBER
+
+  end_time = time.perf_counter_ns()
+  elapsed_ns = end_time - start_time
+  return (elapsed_ns)
+
+bitTimes = []
+
+for bit in userBinary:
+    repeats = 0
+    appended_bit = 0
+    total = 0
+    while repeats != 10:
+      total = total + (process_single_bit(bit))
+      repeats = repeats + 1
+    appended_bit = total // 10
+    bitTimes.append (appended_bit)
+
+print(bitTimes)
+
+bitGuess = []
+
+for time in bitTimes:
+    if time > 1500000:
+        bitGuess.append(1)
+    else:
+        bitGuess.append(0)
+  
+print(bitGuess)
